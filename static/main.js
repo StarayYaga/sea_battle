@@ -1,24 +1,18 @@
-const socket = new WebSocket('ws://192.168.1.66:8080').setAllowedOrigins("*")
-const chatBox = document.getElementById('chatBox');
-const messageInput = document.getElementById('messageInput');
+const socket = io('http://localhost:3000');
+socket.on('connect', function() {
+console.log('Connected');
 
-function displayMessage(message) {
-    const newMessage = document.createElement('div');
-    newMessage.textContent = message;
-    chatBox.appendChild(newMessage);
-}
-
-function sendMessage() {
-    const message = messageInput.value;
-    socket.send(message);
-    displayMessage(`You: ${message}`);
-    messageInput.value = '';
-}
-
-socket.addEventListener('message', (event) => {
-    displayMessage(`Friend: ${event.data}`);
+socket.emit('events', { test: 'test' });
+socket.emit('identity', 0, response =>
+    console.log('Identity:', response),
+);
 });
-
-socket.addEventListener('open', () => {
-    displayMessage('Connected to the Chat!');
+socket.on('events', function(data) {
+console.log('event', data);
+});
+socket.on('exception', function(data) {
+console.log('event', data);
+});
+socket.on('disconnect', function() {
+console.log('Disconnected');
 });

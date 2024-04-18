@@ -1,23 +1,30 @@
-import { SubscribeMessage, WebSocketGateway, OnGatewayInit, WebSocketServer, OnGatewayConnection, OnGatewayDisconnect, ConnectedSocket, MessageBody } from '@nestjs/websockets';
-import { Socket, Server } from 'socket.io';
-import { Logger } from '@nestjs/common';
+import {
+  MessageBody,
+  SubscribeMessage,
+  WebSocketGateway,
+  WebSocketServer,
+  WsResponse,
+} from '@nestjs/websockets';
+import { from, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Server } from 'socket.io';
 
 @WebSocketGateway({
   cors: {
     origin: '*',
   },
-  namespace: 'chat' 
 })
-
-
 export class EventGateway {
-	@SubscribeMessage('newMessage')
-  handleMessage(@ConnectedSocket() client: Socket, @MessageBody() message: string): void {
-   // Business logic to save the message to the database
-   // Broadcasting the new message to all connected clients, excluding the sender
-   client.broadcast.emit('newMessage', message);
- 
-   // Let's add a bit of humor - respond to the sender with an acknowledgement
-   client.emit('acknowledgement', 'Your message was received loud and clear!');
- }
+  @WebSocketServer()
+  server: Server;
+
+  @SubscribeMessage('events')
+  findAll(@MessageBody() data: any): Observable<WsResponse<number>> {
+    return from([1, 2, 3]).pipe(map(item => ({ event: 'events', data: item })));
+  }
+
+  @SubscribeMessage('identity')
+  async identity(@MessageBody() data: number): Promise<number> {
+    return data;
+  }
 }
