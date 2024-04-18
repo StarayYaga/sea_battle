@@ -1,9 +1,24 @@
-let socket = new WebSocket("ws://localhost:5061")
+const socket = new WebSocket('ws://192.168.1.66:8080').setAllowedOrigins("*")
+const chatBox = document.getElementById('chatBox');
+const messageInput = document.getElementById('messageInput');
 
-socket.addEventListener("open", (event)=>{
-    console.log('connect')
-})
+function displayMessage(message) {
+    const newMessage = document.createElement('div');
+    newMessage.textContent = message;
+    chatBox.appendChild(newMessage);
+}
 
-socket.addEventListener("message", (event)=>{
-    console.log(event.data)
-})
+function sendMessage() {
+    const message = messageInput.value;
+    socket.send(message);
+    displayMessage(`You: ${message}`);
+    messageInput.value = '';
+}
+
+socket.addEventListener('message', (event) => {
+    displayMessage(`Friend: ${event.data}`);
+});
+
+socket.addEventListener('open', () => {
+    displayMessage('Connected to the Chat!');
+});
