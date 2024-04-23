@@ -14,13 +14,29 @@ import { Server } from 'socket.io';
     origin: '*',
   },
 })
+
+
 export class EventGateway {
   @WebSocketServer()
   server: Server;
 
   @SubscribeMessage('events')
-  findAll(@MessageBody() data: any): Observable<WsResponse<number>> {
-    return from([1, 2, 3]).pipe(map(item => ({ event: 'events', data: item })));
+  findAll(@MessageBody() data){
+    return data
+  }
+
+  @SubscribeMessage('events')
+  onEvent<T>(@MessageBody() data: T) {
+    const event = 'events';
+    // const response = [1, 2, 3];
+
+    return { event, data }
+  
+  }
+
+  @SubscribeMessage('connected')
+  async connect(@MessageBody() data){
+    return data;
   }
 
   @SubscribeMessage('identity')
