@@ -3,13 +3,38 @@ const socket = io('http://localhost:3000');
 
 const player1 = document.querySelector(".player1")
 const player2 = document.querySelector(".player2")
+const shipsMap = document.querySelector(".ships")
+
+
+const ships = {
+    battleship:{length: 4, count: 1},
+    cruisers : {length: 3, count: 2},
+    destroyer : {length: 2, count: 3},
+    boats : {length: 1, count: 4},
+}
 
 function generationMapGrid(player, id){
     for (let i=0; i<100; i++){
         const div = document.createElement('div');
         div.className = `grid${id} ${i}`;
+        div.addEventListener("click", event=>{
+            
+            // if (){
+                if (event.target.style.background){
+                    event.target.style.background = "none"
+                } else{
+                    event.target.style.background = 'red'
+                }
+            // }
+            console.log(event.target.className)
+        })
         player.querySelector('.map').append(div)
     }
+}
+
+
+function generationShips(){
+    const shipQ = document.querySelectorAll("ship")
 }
 
 function generationMapNamed(player, id){
@@ -35,6 +60,7 @@ async function main(){
     generationMapNamed(player1, 1)
     generationMapGrid(player2, 2)
     generationMapNamed(player2, 2)
+    generationShips()
 }
 
 main()

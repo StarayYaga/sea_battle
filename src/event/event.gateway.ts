@@ -31,7 +31,7 @@ export class EventGateway {
     // const response = [1, 2, 3];
 
     return { event, data }
-  
+
   }
 
   @SubscribeMessage('connected')

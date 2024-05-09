@@ -2,12 +2,12 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    background-color: #42454C;
 }
 
 .main {
-    background-color: #42454C;
     width: 100vw;
-    height: 100vh;
+    /* height: 100vh; */
     display: flex;
     align-items: center;
     vertical-align: middle;
@@ -54,12 +54,25 @@
 .player {
     display: flex;
     margin: 0 100px;
-
     /* grid-template-columns: 60, auto; */
 }
 
+.ships {
+    display: flex;
+    align-items: center;
+    vertical-align: middle;
+    justify-content: center;
+}
+
+.ship {
+    background-color: grey;
+    border: solid #DEC7AE 1px;
+    margin: 5px;
+    width: 50px;
+}
+
 .layer {
-    display: grid;
+    /* display: grid;
     grid-template-areas:
     "  B B B B B B B B B B"
     "C A A A A A A A A A A"
@@ -71,5 +84,7 @@
     "C A A A A A A A A A A"
     "C A A A A A A A A A A"
     "C A A A A A A A A A A"
-    "C A A A A A A A A A A";
+    "C A A A A A A A A A A"; */
+
+
 }
